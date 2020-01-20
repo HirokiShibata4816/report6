@@ -8,7 +8,7 @@ class PlayBabanukiTest {
         /**
          * カードがちゃんと13枚配られているか確認する。
          */
-        int actual = havecard
+        int actual = havecard;
         int expect = 13;
     }
 }
