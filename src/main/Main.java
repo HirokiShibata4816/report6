@@ -1,7 +1,6 @@
-package jp.ac.uryukyu.ie.e195726;
-
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * ババ抜きの実装、途中まで。
@@ -48,6 +47,7 @@ class PlayBabanuki {
             player2_cards.add(list.get(select_num));
             list.remove(select_num);
         }
+        System.out.println("シャッフルされたトランプが配られる。");
         System.out.println(player1_cards);
         System.out.println(player2_cards);
     }
@@ -56,8 +56,9 @@ class PlayBabanuki {
      * 配られたカードの中でダブっているものを取り除くメソッド。
      * String terget; 対象のカード
      * String comparison; 対象のカードと比較するカード
+     * @return
      */
-    public static void discardDoubleCard() {
+    public static int discardDoubleCard() {
         for (int i = 0;i < player1_cards.size(); i++ ){
             // 一つずつ対象のカードを取り出す
             String target = player1_cards.get(i);
@@ -72,13 +73,27 @@ class PlayBabanuki {
                 }
             }
         }
+        //相手のカードについて同じ動作をする(ここは可能な限り一つにまとめるべき)
+        for (int i = 0;i < player2_cards.size(); i++ ){
+            // 一つずつ対象のカードを取り出す
+            String target = player2_cards.get(i);
+            for (int n = 0; n < player2_cards.size(); n++ ){
+                // 比較対象のカードを取り出す(対象のカードと比較するカードをダブらせないように)
+                if (i != n){
+                    String comparison = player2_cards.get(n);
+                    if (target.equals(comparison)){
+                        player2_cards.remove(i);
+                        player2_cards.remove(n);
+                    }
+                }
+            }
+        }
+        System.out.println("ダブりのあるトランプを捨てた。");
         System.out.println(player1_cards);
         System.out.println(player2_cards);
+        int haveCard =player1_cards.size();
+        return haveCard;
     }
-}
-
-class PlayBabanukiTest{
-    @
 }
 
 public class Main {
