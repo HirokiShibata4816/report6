@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-class CardShuffle {
+class PlayBabanuki {
     //自分のカードのリスト
     static List<String> player1_cards = new ArrayList<String>();
     //相手のカードのリスト
@@ -43,14 +43,30 @@ class CardShuffle {
         System.out.println(player1_cards);
         System.out.println(player2_cards);
     }
-}
 
-class DiscardCard {
-
+    public static void discardDoubleCard() {
+        for (int i = 0;i < player1_cards.size(); i++ ){
+            // 一つずつ対象のカードを取り出す
+            String target = player1_cards.get(i);
+            for (int n = 0; n < player1_cards.size(); n++ ){
+                // 比較対象のカードを取り出す(対象のカードと比較するカードをダブらせないように)
+                if (i != n){
+                    String comparison = player1_cards.get(n);
+                    if (target.equals(comparison)){
+                        player1_cards.remove(i);
+                        player1_cards.remove(n);
+                    }
+                }
+            }
+        }
+        System.out.println(player1_cards);
+        System.out.println(player2_cards);
+    }
 }
 
 public class Main {
     public static void main(String[] args) {
-        CardShuffle.shuffle();
+        PlayBabanuki.shuffle();
+        PlayBabanuki.discardDoubleCard();
     }
 }
