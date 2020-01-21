@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Random;
 
 /**
  * ババ抜きの実装、途中まで。
@@ -59,31 +59,35 @@ class PlayBabanuki {
      * @return
      */
     public static int discardDoubleCard() {
-        for (int i = 0;i < player1_cards.size(); i++ ){
+        int haveCard1 = player1_cards.size();
+        for (int i = 0;i < haveCard1; i++ ){
             // 一つずつ対象のカードを取り出す
             String target = player1_cards.get(i);
-            for (int n = 0; n < player1_cards.size(); n++ ){
+            for (int n = 0; n < haveCard1; n++ ){
                 // 比較対象のカードを取り出す(対象のカードと比較するカードをダブらせないように)
                 if (i != n){
                     String comparison = player1_cards.get(n);
                     if (target.equals(comparison)){
                         player1_cards.remove(i);
                         player1_cards.remove(n);
+                        haveCard1 -= 2;
                     }
                 }
             }
         }
         //相手のカードについて同じ動作をする(ここは可能な限り一つにまとめるべき)
-        for (int i = 0;i < player2_cards.size(); i++ ){
+        int haveCard2 = player2_cards.size();
+        for (int i = 0;i < haveCard2; i++ ){
             // 一つずつ対象のカードを取り出す
             String target = player2_cards.get(i);
-            for (int n = 0; n < player2_cards.size(); n++ ){
+            for (int n = 0; n < haveCard2; n++ ){
                 // 比較対象のカードを取り出す(対象のカードと比較するカードをダブらせないように)
                 if (i != n){
                     String comparison = player2_cards.get(n);
                     if (target.equals(comparison)){
                         player2_cards.remove(i);
                         player2_cards.remove(n);
+                        haveCard2 -= 2;
                     }
                 }
             }
@@ -94,11 +98,33 @@ class PlayBabanuki {
         int haveCard =player1_cards.size();
         return haveCard;
     }
+
+    /**
+     * 互いのカードを交換するメソッド。
+     */
+    public static void changeCard(){
+        Random rnd = new Random();
+        int x = rnd.nextInt(player1_cards.size());
+        String changeTarget1 = player1_cards.get(x);
+        player2_cards.add(changeTarget1);
+        //ここも一つにまとめたい。
+        int y = rnd.nextInt(player2_cards.size());
+        String changeTarget2 = player2_cards.get(y);
+        player1_cards.add(changeTarget2);
+        System.out.println("カードを交換した。");
+        System.out.println(player1_cards);
+        System.out.println(player2_cards);
+    }
 }
 
 public class Main {
     public static void main(String[] args) {
         PlayBabanuki.shuffle();
         PlayBabanuki.discardDoubleCard();
+        for (int i = 0; i <=10; i++) {
+            PlayBabanuki.changeCard();
+            PlayBabanuki.discardDoubleCard();
+        }
+
     }
 }
